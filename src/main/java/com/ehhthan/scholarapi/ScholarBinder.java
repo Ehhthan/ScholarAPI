@@ -1,0 +1,30 @@
+package com.ehhthan.scholarapi;
+
+import com.ehhthan.scholarapi.asset.text.TextAssetFactory;
+import com.ehhthan.scholarapi.asset.text.TextAssetFactoryImpl;
+import com.ehhthan.scholarapi.location.NamespaceKeyFactoryImpl;
+import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
+import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
+import com.ehhthan.scholarapi.mcmeta.PackMCMetaProvider;
+import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+import com.google.inject.name.Names;
+
+import java.io.File;
+
+public class ScholarBinder extends AbstractModule {
+    private final File workingDirectory;
+
+    public ScholarBinder(File workingDirectory) {
+        this.workingDirectory = workingDirectory;
+    }
+
+    @Override
+    protected void configure() {
+        bind(File.class).annotatedWith(Names.named("workingDirectory")).toInstance(workingDirectory);
+        bind(NamespacedKeyFactory.class).to(NamespaceKeyFactoryImpl.class).in(Scopes.SINGLETON);
+        bind(PackMCMeta.class).toProvider(PackMCMetaProvider.class);
+        bind(TextAssetFactory.class).to(TextAssetFactoryImpl.class).in(Scopes.SINGLETON);
+        bind(ResourcePack.class).to(ResourcePackImpl.class);
+    }
+}
