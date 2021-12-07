@@ -1,5 +1,7 @@
 package com.ehhthan.scholarapi.location;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import org.jetbrains.annotations.NotNull;
 
 import static com.ehhthan.scholarapi.location.NamespacedKeyValidator.*;
@@ -8,7 +10,8 @@ public final class NamespacedKeyImpl implements NamespacedKey {
     private final String namespace;
     private final String key;
 
-    NamespacedKeyImpl(@NotNull String namespace, @NotNull String key) {
+    @Inject
+    NamespacedKeyImpl(@NotNull @Assisted("namespace") String namespace, @NotNull @Assisted("key") String key) {
         validateNamespace(namespace);
         validateKey(key);
 

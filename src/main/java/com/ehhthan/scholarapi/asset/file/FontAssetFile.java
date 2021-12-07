@@ -7,14 +7,14 @@ import com.google.inject.name.Named;
 
 import java.io.File;
 
-public class TextureAssetFile extends AbstractAssetFile {
+public class FontAssetFile extends AbstractAssetFile {
     @Inject
-    TextureAssetFile(NamespacedKeyFactory namespacedKeyFactory, @Named("workingDirectory") File directory, @Assisted String minecraftPath) {
-        super(namespacedKeyFactory, directory, "textures", minecraftPath);
+    FontAssetFile(NamespacedKeyFactory namespacedKeyFactory, @Named("workingDirectory") File directory, @Assisted String minecraftPath) {
+        super(namespacedKeyFactory, directory, "font", minecraftPath);
     }
 
     @Override
     public String extension() {
-        return ".png";
+        return ".json";
     }
 }

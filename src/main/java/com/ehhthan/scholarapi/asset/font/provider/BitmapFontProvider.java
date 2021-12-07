@@ -19,4 +19,6 @@ public interface BitmapFontProvider extends FontProvider {
     }
 
     FontCharacter character(char c);
+
+    boolean hasCharacter(char c);
 }

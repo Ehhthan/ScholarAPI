@@ -21,41 +21,37 @@ public final class BitmapFontProviderImpl implements BitmapFontProvider {
     private final int ascent;
     private final String[] chars;
 
-    private final Map<Character, FontCharacter> characterMap = new HashMap<>();
+    private final transient Map<Character, FontCharacter> characterMap = new HashMap<>();
 
     @Inject
     BitmapFontProviderImpl(FontCharacterFactory characterFactory, AssetFileFactory fileFactory, @Assisted JsonObject json) {
-        this.file = fileFactory.textureFile(json.getAsJsonPrimitive("file").getAsString());
-        this.height = json.getAsJsonPrimitive("height").getAsInt();
+        this.file = fileFactory.texture(json.getAsJsonPrimitive("file").getAsString());
+        this.height = json.has("height") ? json.getAsJsonPrimitive("height").getAsInt() : 8;
         this.ascent = json.getAsJsonPrimitive("ascent").getAsInt();
 
-        JsonArray array = json.getAsJsonArray("chars");
-        this.chars = new String[array.size()];
-
-        // TODO: 12/7/2021 optimize character caches
-        for(int i = 0; i < array.size(); i++){
-            chars[i] = array.get(i).getAsString();
+        JsonArray strings = json.getAsJsonArray("chars");
+        this.chars = new String[strings.size()];
+        for(int i = 0; i < strings.size(); i++){
+            chars[i] = strings.get(i).getAsString();
         }
 
-        char[][] charsArray = new char[this.chars.length][this.chars[0].toCharArray().length];
-        for (int i = 0; i < this.chars.length; i++) {
-            char[] loopArray = this.chars[i].toCharArray();
-            System.arraycopy(loopArray, 0, charsArray[i], 0, loopArray.length);
-        }
+        int rows = this.chars.length;
+        int columns = this.chars[0].toCharArray().length;
+
+        char[][] sortedChars = new char[rows][columns];
+        for (int i = 0; i < rows; i++)
+            sortedChars[i] = chars[i].toCharArray();
 
         try {
             BufferedImage texture = ImageIO.read(file.asFile());
-            int rows = this.chars[0].toCharArray().length;
-            int columns = this.chars.length;
-            int tileWidth = texture.getWidth() / rows;
-            int tileHeight = texture.getHeight() / columns;
+
+            int tileWidth = texture.getWidth() / columns;
+            int tileHeight = texture.getHeight() / rows;
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
-                    BufferedImage tile = texture.getSubimage(tileWidth * i, tileHeight * j, tileWidth, tileHeight);
-
-                    char c = charsArray[j][i];
-                    if (c != 0) {
-                        characterMap.put(c, characterFactory.create(c, tile));
+                    char character = sortedChars[i][j];
+                    if (character != 0) {
+                        characterMap.put(character, characterFactory.create(character, texture.getSubimage(tileWidth * j, tileHeight * i, tileWidth, tileHeight)));
                     }
                 }
             }
@@ -87,5 +83,10 @@ public final class BitmapFontProviderImpl implements BitmapFontProvider {
     @Override
     public FontCharacter character(char c) {
         return characterMap.get(c);
+    }
+
+    @Override
+    public boolean hasCharacter(char c) {
+        return characterMap.containsKey(c);
     }
 }

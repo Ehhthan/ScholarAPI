@@ -1,22 +1,19 @@
 package com.ehhthan.scholarapi;
 
-import com.ehhthan.scholarapi.asset.file.AssetFile;
 import com.ehhthan.scholarapi.asset.file.AssetFileFactory;
-import com.ehhthan.scholarapi.asset.file.ModelAssetFile;
-import com.ehhthan.scholarapi.asset.file.TextureAssetFile;
+import com.ehhthan.scholarapi.asset.font.FontAsset;
+import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
+import com.ehhthan.scholarapi.asset.font.FontAssetImpl;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacterFactory;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacterImpl;
 import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProvider;
 import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProviderImpl;
-import com.ehhthan.scholarapi.asset.font.provider.FontProvider;
 import com.ehhthan.scholarapi.asset.font.provider.FontProviderFactory;
-import com.ehhthan.scholarapi.asset.text.JsonTextAsset;
-import com.ehhthan.scholarapi.asset.text.StringTextAsset;
-import com.ehhthan.scholarapi.asset.text.TextAsset;
 import com.ehhthan.scholarapi.asset.text.TextAssetFactory;
-import com.ehhthan.scholarapi.location.NamespaceKeyFactoryImpl;
+import com.ehhthan.scholarapi.location.NamespacedKey;
 import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
+import com.ehhthan.scholarapi.location.NamespacedKeyImpl;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
 import com.ehhthan.scholarapi.mcmeta.PackMCMetaProvider;
 import com.google.inject.AbstractModule;
@@ -37,14 +34,21 @@ public class ScholarBinder extends AbstractModule {
     protected void configure() {
         bind(File.class).annotatedWith(Names.named("workingDirectory")).toInstance(workingDirectory);
 
-        bind(NamespacedKeyFactory.class).to(NamespaceKeyFactoryImpl.class).in(Scopes.SINGLETON);
         bind(PackMCMeta.class).toProvider(PackMCMetaProvider.class);
 
         bind(ResourcePack.class).to(ResourcePackImpl.class);
 
+        install(new FactoryModuleBuilder()
+            .implement(NamespacedKey.class, NamespacedKeyImpl.class)
+            .build(NamespacedKeyFactory.class));
+
         install(new FactoryModuleBuilder().build(TextAssetFactory.class));
 
         install(new FactoryModuleBuilder().build(AssetFileFactory.class));
+
+        install(new FactoryModuleBuilder()
+            .implement(FontAsset.class, FontAssetImpl.class)
+            .build(FontAssetFactory.class));
 
         install(new FactoryModuleBuilder()
             .implement(FontCharacter.class, FontCharacterImpl.class)

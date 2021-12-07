@@ -12,6 +12,8 @@ public class TextureUtil {
      */
     public static BufferedImage trim(BufferedImage texture) {
         WritableRaster raster = texture.getAlphaRaster();
+        if (raster == null)
+            return texture;
         int width = raster.getWidth();
         int height = raster.getHeight();
         int left = 0;
