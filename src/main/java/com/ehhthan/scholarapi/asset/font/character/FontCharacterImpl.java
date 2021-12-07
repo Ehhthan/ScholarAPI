@@ -2,7 +2,9 @@ package com.ehhthan.scholarapi.asset.font.character;
 
 public class FontCharacterImpl implements FontCharacter {
 
-    FontCharacterImpl(char)
+    FontCharacterImpl(char character) {
+
+    }
     @Override
     public char character() {
         return 0;

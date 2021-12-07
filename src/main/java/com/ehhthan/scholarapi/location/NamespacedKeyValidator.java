@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 
 import java.util.regex.Pattern;
 
+// TODO: 12/6/2021 better
 public class NamespacedKeyValidator {
     private static final Pattern VALID_NAMESPACE = Pattern.compile("[a-z0-9._-]+");
     private static final Pattern VALID_KEY = Pattern.compile("[a-z0-9/._-]+");

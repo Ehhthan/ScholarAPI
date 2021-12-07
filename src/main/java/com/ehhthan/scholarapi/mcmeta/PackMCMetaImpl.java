@@ -3,19 +3,19 @@ package com.ehhthan.scholarapi.mcmeta;
 import com.ehhthan.scholarapi.asset.text.TextAsset;
 import com.google.inject.Inject;
 
-public class PackMCMetaImpl implements PackMCMeta {
-    private int packFormat;
-    private TextAsset description;
+public final class PackMCMetaImpl implements PackMCMeta {
+    private final int format;
+    private final TextAsset description;
 
     @Inject
-    PackMCMetaImpl(int packFormat, TextAsset description) {
-        this.packFormat = packFormat;
+    PackMCMetaImpl(int format, TextAsset description) {
+        this.format = format;
         this.description = description;
     }
 
     @Override
-    public int packFormat() {
-        return packFormat;
+    public int format() {
+        return format;
     }
 
     @Override

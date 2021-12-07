@@ -5,12 +5,12 @@ import com.google.inject.Inject;
 
 import java.awt.image.BufferedImage;
 
-public class ResourcePackImpl implements ResourcePack {
-    private PackMCMeta meta;
-    private BufferedImage icon;
+public final class ResourcePackImpl implements ResourcePack {
+    private final PackMCMeta meta;
+    private final BufferedImage icon;
 
     @Inject
-    public ResourcePackImpl(PackMCMeta meta) {
+    ResourcePackImpl(PackMCMeta meta) {
         this.meta = meta;
         this.icon = null;
     }

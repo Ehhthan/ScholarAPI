@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.ehhthan.scholarapi.location.NamespacedKeyValidator.*;
 
-public class NamespacedKeyImpl implements NamespacedKey {
+public final class NamespacedKeyImpl implements NamespacedKey {
     private final String namespace;
     private final String key;
 

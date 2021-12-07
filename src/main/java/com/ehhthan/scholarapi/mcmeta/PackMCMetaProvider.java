@@ -4,12 +4,15 @@ import com.ehhthan.scholarapi.asset.text.TextAsset;
 import com.ehhthan.scholarapi.asset.text.TextAssetFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
-public class PackMCMetaProvider implements Provider<PackMCMeta> {
-    private TextAssetFactory textAssetFactory;
+import java.io.File;
+
+public final class PackMCMetaProvider implements Provider<PackMCMeta> {
+    private final TextAssetFactory textAssetFactory;
 
     @Inject
-    public PackMCMetaProvider(TextAssetFactory textAssetFactory) {
+     PackMCMetaProvider(TextAssetFactory textAssetFactory) {
         this.textAssetFactory = textAssetFactory;
     }
 

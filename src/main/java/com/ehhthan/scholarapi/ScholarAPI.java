@@ -1,5 +1,7 @@
 package com.ehhthan.scholarapi;
 
+import com.ehhthan.scholarapi.asset.file.AssetFile;
+import com.ehhthan.scholarapi.asset.file.AssetFileFactory;
 import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -14,8 +16,10 @@ public class ScholarAPI {
     }
 
     public static void get(File workingDirectory) {
+        String mcPath = "mmobars:font/solid/bar_1.png";
         Injector injector = Guice.createInjector(new ScholarBinder(workingDirectory));
-        System.out.println(injector.getInstance(NamespacedKeyFactory.class).namespacedKey("minecraft", "item"));
+        AssetFile texture = injector.getInstance(AssetFileFactory.class).assetFile(AssetFile.FileType.TEXTURES, mcPath);
+        System.out.println(texture.asFile().getName());
     }
 }
 
