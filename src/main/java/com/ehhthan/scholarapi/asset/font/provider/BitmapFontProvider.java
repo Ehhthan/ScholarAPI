@@ -1,20 +1,22 @@
 package com.ehhthan.scholarapi.asset.font.provider;
 
 import com.ehhthan.scholarapi.asset.file.AssetFile;
+import com.ehhthan.scholarapi.asset.file.TextureAssetFile;
+import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 
 public interface BitmapFontProvider extends FontProvider {
-
-    AssetFile file();
+    TextureAssetFile file();
 
     int height();
 
     int ascent();
 
+    String[] chars();
 
     @Override
-    default ProviderType type() {
-        return ProviderType.BITMAP;
+    default String type() {
+        return "bitmap";
     }
 
-
+    FontCharacter character(char c);
 }

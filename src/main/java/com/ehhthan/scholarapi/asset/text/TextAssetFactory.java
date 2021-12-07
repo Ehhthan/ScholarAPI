@@ -5,6 +5,6 @@ import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 public interface TextAssetFactory {
-    @Named("json") TextAsset jsonAsset(@NotNull String json);
-    @Named("string") TextAsset stringAsset(@NotNull String text);
+    @Named("json") JsonTextAsset jsonAsset(@NotNull String json);
+    @Named("string") StringTextAsset stringAsset(@NotNull String text);
 }
