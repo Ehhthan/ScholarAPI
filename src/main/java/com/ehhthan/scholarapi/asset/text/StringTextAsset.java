@@ -8,8 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class StringTextAsset implements TextAsset {
     private final Component component;
 
-    @Inject
-    StringTextAsset(@Assisted @NotNull String text) {
+    StringTextAsset(@NotNull String text) {
         this.component = Component.text(text);
     }
 

@@ -1,12 +1,11 @@
 package com.ehhthan.scholarapi.asset.font;
 
-import com.ehhthan.scholarapi.asset.file.FontAssetFile;
+import com.ehhthan.scholarapi.asset.file.AssetFile;
 import com.ehhthan.scholarapi.asset.font.provider.FontProvider;
 import com.ehhthan.scholarapi.asset.font.provider.FontProviderFactory;
 import com.ehhthan.scholarapi.location.NamespacedKey;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -20,12 +19,10 @@ public class FontAssetImpl implements FontAsset {
     private final FontProvider[] providers;
 
     @Inject
-    FontAssetImpl(FontProviderFactory providerFactory, @Assisted FontAssetFile file) throws IOException {
-        this.namespacedKey = file.namespacedKey();
+    FontAssetImpl(FontProviderFactory providerFactory, Gson gson, @Assisted AssetFile file) throws IOException {
+        this.namespacedKey = file.asNamespacedKey();
 
-        Gson gson = new Gson();
         BufferedReader reader = Files.newBufferedReader(file.asFile().toPath());
-
         JsonObject json = gson.fromJson(reader, JsonObject.class);
 
         JsonArray jsonProviders = json.getAsJsonArray("providers");
@@ -33,15 +30,13 @@ public class FontAssetImpl implements FontAsset {
         for (int i = 0; i < jsonProviders.size(); i++) {
             JsonObject providerObject = jsonProviders.get(i).getAsJsonObject();
 
-            switch (providerObject.get("type").getAsString()) {
-                case "bitmap":
+            switch (FontProvider.Type.fromPath(providerObject.get("type").getAsString())) {
+                case BITMAP:
                     this.providers[i] = providerFactory.bitmap(providerObject);
-                case "ttf":
+                case TTF:
                     //throw new UnsupportedOperationException("TTF type not supported yet.");
-                case "legacy_unicode":
+                case LEGACY_UNICODE:
                     //throw new UnsupportedOperationException("Legacy_unicode type not supported yet.");
-                default:
-                    //throw new IllegalArgumentException("Invalid font type.");
             }
         }
     }

@@ -1,23 +1,19 @@
 package com.ehhthan.scholarapi;
 
-import com.ehhthan.scholarapi.asset.file.AssetFile;
 import com.ehhthan.scholarapi.asset.file.AssetFileFactory;
-import com.ehhthan.scholarapi.asset.file.FontAssetFile;
-import com.ehhthan.scholarapi.asset.file.TextureAssetFile;
 import com.ehhthan.scholarapi.asset.font.FontAsset;
 import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProvider;
 import com.ehhthan.scholarapi.asset.font.provider.FontProvider;
-import com.ehhthan.scholarapi.asset.font.provider.FontProviderFactory;
+import com.ehhthan.scholarapi.location.NamespacedKey;
 import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import java.io.File;
+import java.util.Arrays;
 
 @Singleton
 public class ScholarAPI {
@@ -26,18 +22,20 @@ public class ScholarAPI {
     }
 
     public static void get(File workingDirectory) {
-        String mcPath = "minecraft:block/button";
         Injector injector = Guice.createInjector(new ScholarBinder(workingDirectory));
 
         AssetFileFactory instance = injector.getInstance(AssetFileFactory.class);
 
-        FontAsset font = injector.getInstance(FontAssetFactory.class).create(instance.font("mmobars:ab_0"));
+        NamespacedKey namespacedKey = injector.getInstance(NamespacedKeyFactory.class).namespacedKey("minecraft:default");
+
+        FontAsset font = injector.getInstance(FontAssetFactory.class).create(instance.font(namespacedKey));
         for (FontProvider provider : font.providers()) {
             if (provider instanceof BitmapFontProvider) {
-                char c = '\uE327';
-                if (((BitmapFontProvider) provider).hasCharacter(c)) {
-                    FontCharacter fontChar = ((BitmapFontProvider) provider).character(c);
-                    System.out.println("char -> " + fontChar.character());
+                int codepoint = Character.toCodePoint('\ud83c','\udf0a');
+                if (((BitmapFontProvider) provider).charMap().containsKey(codepoint)) {
+                    FontCharacter fontChar = ((BitmapFontProvider) provider).charMap().get(codepoint);
+                    System.out.println("codepoint -> " + fontChar.codepoint());
+                    System.out.println("character -> " + String.valueOf(fontChar.character()));
                     System.out.println("width -> " + fontChar.width());
                     System.out.println("height -> " + fontChar.height());
                 }

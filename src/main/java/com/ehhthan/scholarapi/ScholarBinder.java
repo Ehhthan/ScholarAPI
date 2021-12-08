@@ -11,13 +11,13 @@ import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProvider;
 import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProviderImpl;
 import com.ehhthan.scholarapi.asset.font.provider.FontProviderFactory;
 import com.ehhthan.scholarapi.asset.text.TextAssetFactory;
-import com.ehhthan.scholarapi.location.NamespacedKey;
 import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
-import com.ehhthan.scholarapi.location.NamespacedKeyImpl;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
 import com.ehhthan.scholarapi.mcmeta.PackMCMetaProvider;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
+import com.google.inject.Provides;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 
@@ -38,24 +38,25 @@ public class ScholarBinder extends AbstractModule {
 
         bind(ResourcePack.class).to(ResourcePackImpl.class);
 
-        install(new FactoryModuleBuilder()
-            .implement(NamespacedKey.class, NamespacedKeyImpl.class)
-            .build(NamespacedKeyFactory.class));
+        bind(NamespacedKeyFactory.class).to(NamespacedKeyFactory.NamespacedKeyFactoryImpl.class);
 
-        install(new FactoryModuleBuilder().build(TextAssetFactory.class));
+        bind(TextAssetFactory.class).to(TextAssetFactory.TextAssetFactoryImpl.class);
 
-        install(new FactoryModuleBuilder().build(AssetFileFactory.class));
+        bind(AssetFileFactory.class).to(AssetFileFactory.AssetFileFactoryImpl.class);
+
+        bind(FontCharacterFactory.class).to(FontCharacterFactory.FontCharacterFactoryImpl.class);
 
         install(new FactoryModuleBuilder()
             .implement(FontAsset.class, FontAssetImpl.class)
             .build(FontAssetFactory.class));
 
         install(new FactoryModuleBuilder()
-            .implement(FontCharacter.class, FontCharacterImpl.class)
-            .build(FontCharacterFactory.class));
-
-        install(new FactoryModuleBuilder()
             .implement(BitmapFontProvider.class, Names.named("bitmap"), BitmapFontProviderImpl.class)
             .build(FontProviderFactory.class));
+    }
+
+    @Provides
+    Gson provideGson() {
+        return new GsonBuilder().create();
     }
 }

@@ -1,9 +1,12 @@
 package com.ehhthan.scholarapi.asset.font.provider;
 
+import com.ehhthan.scholarapi.asset.file.AssetFile;
 import com.ehhthan.scholarapi.asset.file.AssetFileFactory;
-import com.ehhthan.scholarapi.asset.file.TextureAssetFile;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacterFactory;
+import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Utf8;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
@@ -16,16 +19,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class BitmapFontProviderImpl implements BitmapFontProvider {
-    private final TextureAssetFile file;
+    private final AssetFile file;
     private final int height;
     private final int ascent;
     private final String[] chars;
 
-    private final transient Map<Character, FontCharacter> characterMap = new HashMap<>();
+    private final transient Map<Integer, FontCharacter> charMap = new HashMap<>();
 
     @Inject
-    BitmapFontProviderImpl(FontCharacterFactory characterFactory, AssetFileFactory fileFactory, @Assisted JsonObject json) {
-        this.file = fileFactory.texture(json.getAsJsonPrimitive("file").getAsString());
+    BitmapFontProviderImpl(FontCharacterFactory characterFactory,
+                           AssetFileFactory fileFactory,
+                           NamespacedKeyFactory namespacedKeyFactory,
+                           @Assisted JsonObject json) {
+
+        this.file = fileFactory.texture(namespacedKeyFactory.namespacedKey(json.getAsJsonPrimitive("file").getAsString()));
+
+        Preconditions.checkArgument(file.type() == AssetFile.Type.TEXTURE, "Asset is not a texture.");
+
         this.height = json.has("height") ? json.getAsJsonPrimitive("height").getAsInt() : 8;
         this.ascent = json.getAsJsonPrimitive("ascent").getAsInt();
 
@@ -38,9 +48,9 @@ public final class BitmapFontProviderImpl implements BitmapFontProvider {
         int rows = this.chars.length;
         int columns = this.chars[0].toCharArray().length;
 
-        char[][] sortedChars = new char[rows][columns];
+        int[][] codepoints = new int[rows][columns];
         for (int i = 0; i < rows; i++)
-            sortedChars[i] = chars[i].toCharArray();
+            codepoints[i] = chars[i].codePoints().toArray();
 
         try {
             BufferedImage texture = ImageIO.read(file.asFile());
@@ -49,19 +59,19 @@ public final class BitmapFontProviderImpl implements BitmapFontProvider {
             int tileHeight = texture.getHeight() / rows;
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
-                    char character = sortedChars[i][j];
-                    if (character != 0) {
-                        characterMap.put(character, characterFactory.create(character, texture.getSubimage(tileWidth * j, tileHeight * i, tileWidth, tileHeight)));
+                    int codepoint = codepoints[i][j];
+                    if (codepoint != 0) {
+                        charMap.put(codepoint, characterFactory.create(codepoint, texture.getSubimage(tileWidth * j, tileHeight * i, tileWidth, tileHeight)));
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
     @Override
-    public TextureAssetFile file() {
+    public AssetFile file() {
         return file;
     }
 
@@ -81,12 +91,7 @@ public final class BitmapFontProviderImpl implements BitmapFontProvider {
     }
 
     @Override
-    public FontCharacter character(char c) {
-        return characterMap.get(c);
-    }
-
-    @Override
-    public boolean hasCharacter(char c) {
-        return characterMap.containsKey(c);
+    public Map<Integer, FontCharacter> charMap() {
+        return charMap;
     }
 }

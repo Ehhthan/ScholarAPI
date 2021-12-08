@@ -6,11 +6,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 
+// TODO: 12/7/2021 implement gson
 public class JsonTextAsset implements TextAsset {
     private final Component component;
 
-    @Inject
-    JsonTextAsset(@Assisted @NotNull String json) {
+    JsonTextAsset(@NotNull String json) {
         this.component = GsonComponentSerializer.gson().deserialize(json);
     }
 

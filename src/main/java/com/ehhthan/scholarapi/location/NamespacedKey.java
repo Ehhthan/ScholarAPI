@@ -4,4 +4,6 @@ public interface NamespacedKey {
     String namespace();
 
     String key();
+
+    String path();
 }

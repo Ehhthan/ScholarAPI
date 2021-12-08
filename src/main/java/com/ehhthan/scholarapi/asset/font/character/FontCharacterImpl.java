@@ -7,20 +7,35 @@ import com.google.inject.assistedinject.Assisted;
 import java.awt.image.BufferedImage;
 
 public final class FontCharacterImpl implements FontCharacter {
-    private final char character;
+    private final int codepoint;
     private final int width, height;
 
+    private final char[] character;
+
     @Inject
-    FontCharacterImpl(@Assisted char character, @Assisted BufferedImage texture) {
-        this.character = character;
+    FontCharacterImpl(@Assisted int codepoint, @Assisted BufferedImage texture) {
+        this.codepoint = codepoint;
 
         texture = TextureUtil.trim(texture);
         this.width = texture.getWidth();
         this.height = texture.getHeight();
+
+        StringBuilder sb = new StringBuilder();
+        if (Character.isBmpCodePoint(codepoint)) {
+            sb.append((char) codepoint);
+        } else if (Character.isValidCodePoint(codepoint)) {
+            sb.append(Character.highSurrogate(codepoint))
+            .append(Character.lowSurrogate(codepoint));
+        }
+        this.character = sb.toString().toCharArray();
     }
 
     @Override
-    public char character() {
+    public int codepoint() {
+        return codepoint;
+    }
+
+    public char[] character() {
         return character;
     }
 

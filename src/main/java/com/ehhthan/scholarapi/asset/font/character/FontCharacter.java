@@ -1,9 +1,11 @@
 package com.ehhthan.scholarapi.asset.font.character;
 
 public interface FontCharacter {
-    char character();
+    int codepoint();
 
     int width();
 
     int height();
+
+    char[] character();
 }

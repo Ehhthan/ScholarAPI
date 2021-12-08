@@ -1,7 +1,7 @@
 package com.ehhthan.scholarapi.asset.font;
 
-import com.ehhthan.scholarapi.asset.file.FontAssetFile;
+import com.ehhthan.scholarapi.asset.file.AssetFile;
 
 public interface FontAssetFactory {
-    FontAsset create(FontAssetFile file);
+    FontAsset create(AssetFile file);
 }
