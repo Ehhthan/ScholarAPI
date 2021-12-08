@@ -1,7 +1,6 @@
 package com.ehhthan.scholarapi.asset.text;
 
 import com.google.inject.name.Named;
-import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 public interface TextAssetFactory {

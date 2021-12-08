@@ -1,6 +1,5 @@
 package com.ehhthan.scholarapi.location;
 
-import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import org.jetbrains.annotations.NotNull;
 

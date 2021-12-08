@@ -6,8 +6,6 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 import java.io.File;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public interface AssetFileFactory {
     @Named("texture") AssetFile texture(NamespacedKey namespacedKey);

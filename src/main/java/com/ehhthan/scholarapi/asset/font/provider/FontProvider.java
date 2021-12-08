@@ -1,9 +1,14 @@
 package com.ehhthan.scholarapi.asset.font.provider;
 
+import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
+
 import java.util.Locale;
+import java.util.Map;
 
 public interface FontProvider {
     Type type();
+
+    Map<Integer, FontCharacter> fontCharacters();
 
     enum Type {
         BITMAP,

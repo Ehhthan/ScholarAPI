@@ -6,7 +6,6 @@ import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacterFactory;
 import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Utf8;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
@@ -91,7 +90,7 @@ public final class BitmapFontProviderImpl implements BitmapFontProvider {
     }
 
     @Override
-    public Map<Integer, FontCharacter> charMap() {
+    public Map<Integer, FontCharacter> fontCharacters() {
         return charMap;
     }
 }

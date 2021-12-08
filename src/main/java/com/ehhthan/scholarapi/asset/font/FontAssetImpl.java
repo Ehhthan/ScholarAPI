@@ -1,6 +1,7 @@
 package com.ehhthan.scholarapi.asset.font;
 
 import com.ehhthan.scholarapi.asset.file.AssetFile;
+import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 import com.ehhthan.scholarapi.asset.font.provider.FontProvider;
 import com.ehhthan.scholarapi.asset.font.provider.FontProviderFactory;
 import com.ehhthan.scholarapi.location.NamespacedKey;
@@ -13,10 +14,14 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FontAssetImpl implements FontAsset {
     private final NamespacedKey namespacedKey;
     private final FontProvider[] providers;
+
+    private final Map<Integer, FontCharacter> fontCharacters = new HashMap<>();
 
     @Inject
     FontAssetImpl(FontProviderFactory providerFactory, Gson gson, @Assisted AssetFile file) throws IOException {
@@ -32,7 +37,9 @@ public class FontAssetImpl implements FontAsset {
 
             switch (FontProvider.Type.fromPath(providerObject.get("type").getAsString())) {
                 case BITMAP:
-                    this.providers[i] = providerFactory.bitmap(providerObject);
+                    FontProvider provider = providerFactory.bitmap(providerObject);
+                    this.providers[i] = provider;
+                    fontCharacters.putAll(provider.fontCharacters());
                 case TTF:
                     //throw new UnsupportedOperationException("TTF type not supported yet.");
                 case LEGACY_UNICODE:
@@ -49,5 +56,10 @@ public class FontAssetImpl implements FontAsset {
     @Override
     public FontProvider[] providers() {
         return providers;
+    }
+
+    @Override
+    public Map<Integer, FontCharacter> fontCharacters() {
+        return fontCharacters;
     }
 }

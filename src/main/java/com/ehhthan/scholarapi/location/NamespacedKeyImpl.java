@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+// TODO: 12/7/2021 check if namespace is required and if not what it should default to
 public final class NamespacedKeyImpl implements NamespacedKey {
     private static final Pattern NAMESPACED_KEY_PATTERN = Pattern.compile("(?<namespace>[a-z0-9._-]+):(?<key>[a-z0-9/._-]+)");
 
