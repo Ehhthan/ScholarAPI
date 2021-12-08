@@ -12,6 +12,8 @@ import com.ehhthan.scholarapi.asset.text.TextAssetFactory;
 import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
 import com.ehhthan.scholarapi.mcmeta.PackMCMetaProvider;
+import com.ehhthan.scholarapi.resourcepack.ResourcePack;
+import com.ehhthan.scholarapi.resourcepack.ResourcePackImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.AbstractModule;

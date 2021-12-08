@@ -4,12 +4,14 @@ import com.google.common.base.Preconditions;
 import com.google.inject.name.Named;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.file.Path;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // TODO: 12/7/2021 check if namespace is required and if not what it should default to
 public final class NamespacedKeyImpl implements NamespacedKey {
-    private static final Pattern NAMESPACED_KEY_PATTERN = Pattern.compile("(?<namespace>[a-z0-9._-]+):(?<key>[a-z0-9/._-]+)");
+    private static final Pattern MINECRAFT_PATH_PATTERN = Pattern.compile("(?<namespace>[a-z0-9._-]+):(?<key>[a-z0-9/._-]+)");
 
     private final String path;
     private final String namespace;
@@ -17,11 +19,11 @@ public final class NamespacedKeyImpl implements NamespacedKey {
 
     private final String withoutExtension;
 
-    NamespacedKeyImpl(@NotNull @Named("path") String path) {
+    NamespacedKeyImpl(@NotNull @Named("minecraftPath") String path) {
         this.path = path;
         Preconditions.checkArgument(path.length() < 256, "NamespacedKey length must be less than 256 characters: %s", path);
 
-        Matcher matcher = NAMESPACED_KEY_PATTERN.matcher(path);
+        Matcher matcher = MINECRAFT_PATH_PATTERN.matcher(path);
         if (matcher.find()) {
             this.namespace = matcher.group("namespace");
             this.key = matcher.group("key");

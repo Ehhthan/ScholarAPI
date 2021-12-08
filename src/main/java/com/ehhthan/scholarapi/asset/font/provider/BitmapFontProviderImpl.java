@@ -31,7 +31,7 @@ public final class BitmapFontProviderImpl implements BitmapFontProvider {
                            NamespacedKeyFactory namespacedKeyFactory,
                            @Assisted JsonObject json) {
 
-        this.file = fileFactory.texture(namespacedKeyFactory.namespacedKey(json.getAsJsonPrimitive("file").getAsString()));
+        this.file = fileFactory.texture(namespacedKeyFactory.minecraftPath(json.getAsJsonPrimitive("file").getAsString()));
 
         Preconditions.checkArgument(file.type() == AssetFile.Type.TEXTURE, "Asset is not a texture.");
 
