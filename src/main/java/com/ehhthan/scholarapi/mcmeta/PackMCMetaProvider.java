@@ -9,7 +9,7 @@ public final class PackMCMetaProvider implements Provider<PackMCMeta> {
     private final TextAssetFactory textAssetFactory;
 
     @Inject
-     PackMCMetaProvider(TextAssetFactory textAssetFactory) {
+    PackMCMetaProvider(TextAssetFactory textAssetFactory) {
         this.textAssetFactory = textAssetFactory;
     }
 

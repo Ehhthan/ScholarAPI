@@ -56,4 +56,19 @@ public final class NamespacedKeyImpl implements NamespacedKey {
     public String toString() {
         return withoutExtension;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NamespacedKeyImpl key = (NamespacedKeyImpl) o;
+
+        return withoutExtension.equals(key.withoutExtension);
+    }
+
+    @Override
+    public int hashCode() {
+        return withoutExtension.hashCode();
+    }
 }
