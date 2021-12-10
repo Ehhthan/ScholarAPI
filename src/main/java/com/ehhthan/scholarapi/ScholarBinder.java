@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
 import java.io.File;
@@ -32,8 +33,6 @@ public class ScholarBinder extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(File.class).annotatedWith(Names.named("workingDirectory")).toInstance(workingDirectory);
-
         bind(PackMCMeta.class).toProvider(PackMCMetaProvider.class);
 
         bind(ResourcePack.class).to(ResourcePackImpl.class);
@@ -58,5 +57,10 @@ public class ScholarBinder extends AbstractModule {
     @Provides
     Gson provideGson() {
         return new GsonBuilder().create();
+    }
+
+    @Provides
+    @Named("workingDirectory") File provideWorkingDirectory() {
+        return workingDirectory;
     }
 }

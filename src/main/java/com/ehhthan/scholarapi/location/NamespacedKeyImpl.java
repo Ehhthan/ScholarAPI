@@ -19,7 +19,7 @@ public final class NamespacedKeyImpl implements NamespacedKey {
 
     private final String withoutExtension;
 
-    NamespacedKeyImpl(@NotNull @Named("minecraftPath") String path) {
+    NamespacedKeyImpl(@NotNull String path) {
         this.path = path;
         Preconditions.checkArgument(path.length() < 256, "NamespacedKey length must be less than 256 characters: %s", path);
 

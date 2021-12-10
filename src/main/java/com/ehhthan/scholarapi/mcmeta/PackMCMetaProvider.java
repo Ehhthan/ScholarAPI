@@ -16,7 +16,7 @@ public final class PackMCMetaProvider implements Provider<PackMCMeta> {
     @Override
     public PackMCMeta get() {
         int packFormat = 8;
-        TextAsset textAsset = textAssetFactory.stringAsset("ScholarAPI pack.");
-        return new PackMCMetaImpl(packFormat, textAsset);
+        TextAsset textAsset = textAssetFactory.string("ScholarAPI pack.");
+        return new PackMCMetaImpl(packFormat, null);
     }
 }

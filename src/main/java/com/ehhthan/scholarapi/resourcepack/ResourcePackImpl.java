@@ -1,5 +1,6 @@
 package com.ehhthan.scholarapi.resourcepack;
 
+import com.ehhthan.scholarapi.asset.file.AssetFile;
 import com.ehhthan.scholarapi.asset.file.AssetFileFactory;
 import com.ehhthan.scholarapi.asset.font.FontAsset;
 import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
@@ -42,7 +43,7 @@ public final class ResourcePackImpl implements ResourcePack {
         for (String namespace : namespaces) {
             File fontFolder = new File(workingDirectory, namespace + "/font/");
             if (fontFolder.exists() && fontFolder.isDirectory())
-                for (File file : fontFolder.listFiles()) {
+                for (File file : fontFolder.listFiles(AssetFile.Type.FONT.filter())) {
                     FontAsset asset = fontFactory.create(fileFactory.font(file));
                     fonts.put(asset.namespacedKey(), asset);
                 }

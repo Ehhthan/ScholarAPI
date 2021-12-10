@@ -1,10 +1,10 @@
 package com.ehhthan.scholarapi.asset.text;
 
 import com.ehhthan.scholarapi.ScholarBinder;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import net.kyori.adventure.text.Component;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,27 +14,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TextAssetFactoryTest {
     private TextAssetFactory factory;
+    private Gson gson;
 
     @BeforeEach
     void setUp() {
         Injector injector = Guice.createInjector(new ScholarBinder(
             new File("C:\\Users\\Ethan\\AppData\\Roaming\\.minecraft\\resourcepacks\\MMOBars-Pack-2.2\\assets")));
         this.factory = injector.getInstance(TextAssetFactory.class);
+        this.gson = injector.getInstance(Gson.class);
     }
 
     @Test
-    void jsonAsset() {
+    void json() {
         String json = "{\"text\":\"hello world\"}";
-        TextAsset asset = factory.jsonAsset(json);
-        String serialized = asset.asJson();
+        TextAsset asset = factory.json(gson.fromJson(json, JsonObject.class));
+        String serialized = asset.get();
         assertEquals(json, serialized);
     }
 
     @Test
-    void stringAsset() {
+    void string() {
         String text = "hello world";
-        TextAsset asset = factory.stringAsset(text);
-        String string = asset.asString();
+        TextAsset asset = factory.string(text);
+        String string = asset.get();
         assertEquals(text, string);
     }
 }

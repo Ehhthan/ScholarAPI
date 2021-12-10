@@ -3,6 +3,7 @@ package com.ehhthan.scholarapi.asset.file;
 import com.ehhthan.scholarapi.location.NamespacedKey;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Locale;
 
 public interface AssetFile {
@@ -36,6 +37,10 @@ public interface AssetFile {
 
         public String extension() {
             return extension;
+        }
+
+        public FileFilter filter() {
+            return file -> file.getName().endsWith(extension);
         }
     }
 }

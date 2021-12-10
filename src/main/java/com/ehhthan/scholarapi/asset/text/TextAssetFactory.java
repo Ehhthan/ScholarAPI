@@ -1,21 +1,23 @@
 package com.ehhthan.scholarapi.asset.text;
 
-import com.google.inject.name.Named;
+import com.ehhthan.scholarapi.asset.text.TextAsset.TextAssetImpl;
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 public interface TextAssetFactory {
-    @Named("json") JsonTextAsset jsonAsset(@NotNull String json);
-    @Named("string") StringTextAsset stringAsset(@NotNull String text);
+    TextAssetImpl json(@NotNull JsonObject json);
+
+    TextAssetImpl string(@NotNull String text);
 
     class TextAssetFactoryImpl implements TextAssetFactory {
         @Override
-        public JsonTextAsset jsonAsset(@NotNull String json) {
-            return new JsonTextAsset(json);
+        public TextAssetImpl json(@NotNull JsonObject json) {
+            return new TextAssetImpl(json.toString());
         }
 
         @Override
-        public StringTextAsset stringAsset(@NotNull String text) {
-            return new StringTextAsset(text);
+        public TextAssetImpl string(@NotNull String text) {
+            return new TextAssetImpl(text);
         }
     }
 }

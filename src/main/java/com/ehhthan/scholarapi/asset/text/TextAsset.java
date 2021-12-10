@@ -1,17 +1,20 @@
 package com.ehhthan.scholarapi.asset.text;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.jetbrains.annotations.NotNull;
 
 public interface TextAsset {
-    Component asComponent();
+    String get();
 
-    default String asJson() {
-        return GsonComponentSerializer.gson().serialize(asComponent());
-    }
+    class TextAssetImpl implements TextAsset {
+        private final String text;
 
-    default String asString() {
-        return PlainTextComponentSerializer.plainText().serialize(asComponent());
+        TextAssetImpl(@NotNull String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String get() {
+            return text;
+        }
     }
 }

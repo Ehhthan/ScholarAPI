@@ -14,16 +14,16 @@ import java.util.Arrays;
 @Singleton
 public class ScholarAPI {
     public static void main(String[] args) {
-        File localTestDirectory = new File("C:\\Users\\Ethan\\AppData\\Roaming\\.minecraft\\resourcepacks\\MMOBars-Pack-2.2\\assets");
+        File localTestDirectory = new File("C:\\Users\\Ethan\\AppData\\Roaming\\.minecraft\\versions\\1.18\\assets");
         Injector injector = Guice.createInjector(new ScholarBinder(localTestDirectory));
 
         NamespacedKeyFactory factory = injector.getInstance(NamespacedKeyFactory.class);
 
         ResourcePack pack = injector.getInstance(ResourcePack.class);
 
-        FontAsset asset = pack.fonts().get(factory.minecraftPath("mmobars:ab_0"));
+        FontAsset asset = pack.fonts().get(factory.minecraftPath("minecraft:default"));
 
-        FontCharacter cur = asset.getCharacter('A');
+        FontCharacter cur = asset.getCharacter('l');
 
         System.out.println("char -> " + Arrays.toString(cur.character()));
         System.out.println("codepoint -> " + cur.codepoint());
