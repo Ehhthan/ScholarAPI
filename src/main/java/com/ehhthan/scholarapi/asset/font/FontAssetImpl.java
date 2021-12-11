@@ -23,29 +23,12 @@ public class FontAssetImpl implements FontAsset {
 
     private final Map<Integer, FontCharacter> fontCharacters = new HashMap<>();
 
-    @Inject
-    FontAssetImpl(FontProviderFactory providerFactory, Gson gson, @Assisted AssetFile file) throws IOException {
-        this.namespacedKey = file.asNamespacedKey();
+    FontAssetImpl(NamespacedKey namespacedKey, FontProvider[] providers) {
+        this.namespacedKey = namespacedKey;
+        this.providers = providers;
 
-        BufferedReader reader = Files.newBufferedReader(file.asFile().toPath());
-        JsonObject json = gson.fromJson(reader, JsonObject.class);
-
-        JsonArray jsonProviders = json.getAsJsonArray("providers");
-        this.providers = new FontProvider[jsonProviders.size()];
-        for (int i = 0; i < jsonProviders.size(); i++) {
-            JsonObject providerObject = jsonProviders.get(i).getAsJsonObject();
-
-            switch (FontProvider.Type.fromPath(providerObject.get("type").getAsString())) {
-                case BITMAP:
-                    FontProvider provider = providerFactory.bitmap(providerObject);
-                    this.providers[i] = provider;
-                    fontCharacters.putAll(provider.fontCharacters());
-                case TTF:
-                    //throw new UnsupportedOperationException("TTF type not supported yet.");
-                case LEGACY_UNICODE:
-                    //throw new UnsupportedOperationException("Legacy_unicode type not supported yet.");
-            }
-        }
+        for (FontProvider provider : providers)
+            fontCharacters.putAll(provider.fontCharacters());
     }
 
     @Override

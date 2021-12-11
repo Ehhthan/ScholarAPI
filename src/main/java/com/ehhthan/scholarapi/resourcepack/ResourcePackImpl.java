@@ -6,11 +6,8 @@ import com.ehhthan.scholarapi.asset.font.FontAsset;
 import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
 import com.ehhthan.scholarapi.location.NamespacedKey;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
-import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.name.Named;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -44,7 +41,7 @@ public final class ResourcePackImpl implements ResourcePack {
             File fontFolder = new File(workingDirectory, namespace + "/font/");
             if (fontFolder.exists() && fontFolder.isDirectory())
                 for (File file : fontFolder.listFiles(AssetFile.Type.FONT.filter())) {
-                    FontAsset asset = fontFactory.create(fileFactory.font(file));
+                    FontAsset asset = fontFactory.file(fileFactory.font(file));
                     fonts.put(asset.namespacedKey(), asset);
                 }
         }

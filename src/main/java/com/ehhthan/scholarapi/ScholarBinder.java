@@ -24,6 +24,7 @@ import com.google.inject.name.Names;
 
 import java.io.File;
 
+// TODO: 12/10/2021 separate into different modules
 public class ScholarBinder extends AbstractModule {
     private final File workingDirectory;
 
@@ -45,9 +46,7 @@ public class ScholarBinder extends AbstractModule {
 
         bind(FontCharacterFactory.class).to(FontCharacterFactory.FontCharacterFactoryImpl.class);
 
-        install(new FactoryModuleBuilder()
-            .implement(FontAsset.class, FontAssetImpl.class)
-            .build(FontAssetFactory.class));
+        bind(FontAssetFactory.class).to(FontAssetFactory.FontAssetFactoryImpl.class);
 
         install(new FactoryModuleBuilder()
             .implement(BitmapFontProvider.class, Names.named("bitmap"), BitmapFontProviderImpl.class)
