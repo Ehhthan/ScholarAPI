@@ -1,15 +1,15 @@
 package com.ehhthan.scholarapi;
 
 import com.ehhthan.scholarapi.asset.font.FontAsset;
+import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
+import com.ehhthan.scholarapi.asset.font.character.FontCharacterImpl;
 import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
-import com.ehhthan.scholarapi.resourcepack.ResourcePack;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import java.io.File;
-import java.util.Arrays;
 
 @Singleton
 public class ScholarAPI {
@@ -19,13 +19,15 @@ public class ScholarAPI {
 
         NamespacedKeyFactory factory = injector.getInstance(NamespacedKeyFactory.class);
 
-        ResourcePack pack = injector.getInstance(ResourcePack.class);
+        //ResourcePack pack = injector.getInstance(ResourcePack.class);
 
-        FontAsset asset = pack.fonts().get(factory.minecraftPath("minecraft:default"));
+        //FontAsset asset = pack.fonts().get(factory.minecraftPath("minecraft:default"));
 
-        FontCharacter cur = asset.getCharacter('l');
+        FontAsset asset = injector.getInstance(FontAssetFactory.class).file(new File(localTestDirectory, "minecraft/font/default.json"));
 
-        System.out.println("char -> " + Arrays.toString(cur.character()));
+        FontCharacter cur = asset.getCharacter(']');
+
+        System.out.println("char -> " + Character.toString(cur.codepoint()));
         System.out.println("codepoint -> " + cur.codepoint());
         System.out.println("width -> " + cur.width());
         System.out.println("height -> " + cur.height());

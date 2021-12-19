@@ -1,9 +1,11 @@
 package com.ehhthan.scholarapi.asset.font;
 
 import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
+import com.ehhthan.scholarapi.asset.font.character.FontCharacterImpl;
 import com.ehhthan.scholarapi.asset.font.provider.FontProvider;
 import com.ehhthan.scholarapi.location.NamespacedKey;
 
+import java.io.FileFilter;
 import java.util.Map;
 
 public interface FontAsset {
@@ -12,15 +14,6 @@ public interface FontAsset {
     FontProvider[] providers();
 
     Map<Integer, FontCharacter> fontCharacters();
-
-    default boolean hasCharacter(char... chars) {
-        if (chars.length == 1)
-            return hasCharacter(chars[0]);
-        else if (chars.length >= 2)
-            return hasCharacter(Character.toCodePoint(chars[0], chars[1]));
-        else
-            return false;
-    }
 
     default boolean hasCharacter(int codepoint) {
         return fontCharacters().containsKey(codepoint);

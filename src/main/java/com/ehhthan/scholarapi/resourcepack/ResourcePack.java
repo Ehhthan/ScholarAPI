@@ -14,5 +14,5 @@ public interface ResourcePack extends Provider<ResourcePack> {
 
     BufferedImage icon();
 
-    Map<NamespacedKey ,FontAsset> fonts();
+    Map<NamespacedKey, FontAsset> fonts();
 }
