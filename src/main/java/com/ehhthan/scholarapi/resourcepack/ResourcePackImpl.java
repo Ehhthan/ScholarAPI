@@ -3,10 +3,11 @@ package com.ehhthan.scholarapi.resourcepack;
 import com.ehhthan.scholarapi.asset.AssetLocation;
 import com.ehhthan.scholarapi.asset.font.FontAsset;
 import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
-import com.ehhthan.scholarapi.location.NamespacedKey;
+import com.ehhthan.scholarapi.file.ResourcesDirectory;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
+import com.ehhthan.scholarapi.file.JsonFileFilter;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,28 +23,33 @@ public final class ResourcePackImpl implements ResourcePack {
     private final PackMCMeta meta;
     private final BufferedImage icon;
 
-    private final transient Set<String> namespaces = new HashSet<>();
-
     private final transient Map<NamespacedKey, FontAsset> fonts = new HashMap<>();
 
     @Inject
-    ResourcePackImpl(@Named("workingDirectory") File workingDirectory, FontAssetFactory fontFactory) {
+    ResourcePackImpl(@ResourcesDirectory File workingDirectory, FontAssetFactory fontFactory, JsonFileFilter filter) {
         this.meta = null;
         this.icon = null;
 
-//        for (File file : workingDirectory.listFiles()) {
-//            if (file.isDirectory() && NAMESPACE_PATTERN.matcher(file.getName()).matches())
-//                namespaces.add(file.getName());
-//        }
-//
-//        for (String namespace : namespaces) {
-//            File fontFolder = new File(workingDirectory, namespace + "/font/");
-//            if (fontFolder.exists() && fontFolder.isDirectory())
-//                for (File file : fontFolder.listFiles()) {
-//                    FontAsset asset = fontFactory.file(fileFactory.font(file));
-//                    fonts.put(asset.namespacedKey(), asset);
-//                }
-//        }
+        Set<String> namespaces = new HashSet<>();
+        File[] folders = workingDirectory.listFiles();
+        if (folders != null)
+            for (File file : folders) {
+                if (file.isDirectory() && NAMESPACE_PATTERN.matcher(file.getName()).matches())
+                    namespaces.add(file.getName());
+            }
+
+        for (String namespace : namespaces) {
+
+            File fontFolder = new File(workingDirectory, AssetLocation.FONT.path(namespace));
+            if (fontFolder.exists() && fontFolder.isDirectory()) {
+                File[] files = fontFolder.listFiles(filter);
+                if (files != null)
+                    for (File file : files) {
+                        FontAsset asset = fontFactory.file(file);
+                        fonts.put(asset.namespacedKey(), asset);
+                    }
+            }
+        }
     }
 
     @Override
@@ -59,10 +65,5 @@ public final class ResourcePackImpl implements ResourcePack {
     @Override
     public Map<NamespacedKey, FontAsset> fonts() {
         return fonts;
-    }
-
-    @Override
-    public ResourcePack get() {
-        return null;
     }
 }

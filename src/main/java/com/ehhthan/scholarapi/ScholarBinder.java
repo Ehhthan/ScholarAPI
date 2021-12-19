@@ -1,15 +1,12 @@
 package com.ehhthan.scholarapi;
 
 import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
-import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacterFactory;
-import com.ehhthan.scholarapi.asset.font.character.FontCharacterImpl;
-import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProvider;
-import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProviderImpl;
 import com.ehhthan.scholarapi.asset.font.provider.FontProviderFactory;
 import com.ehhthan.scholarapi.asset.text.TextAssetFactory;
 import com.ehhthan.scholarapi.asset.texture.TextureAssetFactory;
-import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
+import com.ehhthan.scholarapi.file.ResourcesDirectory;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKeyFactory;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
 import com.ehhthan.scholarapi.mcmeta.PackMCMetaProvider;
 import com.ehhthan.scholarapi.resourcepack.ResourcePack;
@@ -18,9 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.google.inject.name.Named;
-import com.google.inject.name.Names;
 
 import java.io.File;
 
@@ -57,7 +51,8 @@ public class ScholarBinder extends AbstractModule {
     }
 
     @Provides
-    @Named("workingDirectory") File provideWorkingDirectory() {
+    @ResourcesDirectory
+    File provideWorkingDirectory() {
         return workingDirectory;
     }
 }

@@ -1,8 +1,8 @@
-package com.ehhthan.scholarapi.location;
+package com.ehhthan.scholarapi.namespacedkey;
 
+import com.ehhthan.scholarapi.file.ResourcesDirectory;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -24,14 +24,12 @@ public interface NamespacedKeyFactory {
         private final File directory;
 
         @Inject
-        public NamespacedKeyFactoryImpl(@Named("workingDirectory") File directory) {
+        public NamespacedKeyFactoryImpl(@ResourcesDirectory File directory) {
             this.directory = directory;
         }
 
         @Override
         public NamespacedKey minecraftPath(@NotNull String path) {
-            Preconditions.checkArgument(path.length() < 256, "NamespacedKey length must be less than 256 characters: %s", path);
-
             String namespace, key;
 
             Matcher pathMatcher = MINECRAFT_PATH_PATTERN.matcher(path);
@@ -53,6 +51,7 @@ public interface NamespacedKeyFactory {
         @Override
         public NamespacedKey filePath(@NotNull Path path) {
             String stringPath = directory.toPath().relativize(path).toString();
+            // TODO: 12/19/2021 this looks bad
             String[] split = stringPath.split("\\\\", 3);
             Preconditions.checkArgument(split.length == 3, "Invalid path. Cannot be converted to NamespacedKey: %s", Arrays.toString(split));
 

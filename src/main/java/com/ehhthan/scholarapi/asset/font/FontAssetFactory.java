@@ -2,8 +2,8 @@ package com.ehhthan.scholarapi.asset.font;
 
 import com.ehhthan.scholarapi.asset.font.provider.FontProvider;
 import com.ehhthan.scholarapi.asset.font.provider.FontProviderFactory;
-import com.ehhthan.scholarapi.location.NamespacedKey;
-import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKeyFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -13,7 +13,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.regex.Pattern;
 
 public interface FontAssetFactory {
     FontAsset provider(NamespacedKey namespacedKey, FontProvider... providers);

@@ -1,12 +1,10 @@
 package com.ehhthan.scholarapi.asset.font;
 
 import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
-import com.ehhthan.scholarapi.asset.font.character.FontCharacterImpl;
 import com.ehhthan.scholarapi.asset.font.provider.FontProvider;
-import com.ehhthan.scholarapi.location.NamespacedKey;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class FontAssetImpl implements FontAsset {

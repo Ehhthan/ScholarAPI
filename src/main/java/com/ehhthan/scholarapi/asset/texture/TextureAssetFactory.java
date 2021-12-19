@@ -1,10 +1,10 @@
 package com.ehhthan.scholarapi.asset.texture;
 
 import com.ehhthan.scholarapi.asset.AssetLocation;
-import com.ehhthan.scholarapi.location.NamespacedKey;
+import com.ehhthan.scholarapi.file.ResourcesDirectory;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,7 +29,7 @@ public interface TextureAssetFactory {
         private final File workingDirectory;
 
         @Inject
-        public TextureAssetFactoryImpl(@Named("workingDirectory") File workingDirectory) {
+        public TextureAssetFactoryImpl(@ResourcesDirectory File workingDirectory) {
             this.workingDirectory = workingDirectory;
         }
 
@@ -71,7 +71,7 @@ public interface TextureAssetFactory {
                 }
             }
 
-            return new TiledTextureAsset(tileWidth, tileHeight, textures);
+            return new TiledTextureAsset(textures);
         }
 
         @Override

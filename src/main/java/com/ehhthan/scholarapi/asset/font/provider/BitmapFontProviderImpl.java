@@ -1,7 +1,7 @@
 package com.ehhthan.scholarapi.asset.font.provider;
 
 import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
-import com.ehhthan.scholarapi.location.NamespacedKey;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
 
 import java.util.List;
 

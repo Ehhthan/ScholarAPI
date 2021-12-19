@@ -1,7 +1,6 @@
 package com.ehhthan.scholarapi.asset.font.character;
 
 import com.ehhthan.scholarapi.asset.texture.LoneTextureAsset;
-import com.ehhthan.scholarapi.asset.texture.TextureAsset;
 import com.ehhthan.scholarapi.asset.texture.TiledTextureAsset;
 
 import java.awt.image.BufferedImage;

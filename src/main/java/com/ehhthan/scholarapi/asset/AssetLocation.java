@@ -1,6 +1,6 @@
 package com.ehhthan.scholarapi.asset;
 
-import com.ehhthan.scholarapi.location.NamespacedKey;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
 
 import java.util.Locale;
 
@@ -14,9 +14,13 @@ public enum AssetLocation {
     TEXTS,
     TEXTURES;
 
+    private final String name = name().toLowerCase(Locale.ROOT);
 
+    public String path(String namespace) {
+        return namespace + '/' + name + '/';
+    }
 
     public String path(NamespacedKey namespacedKey) {
-        return namespacedKey.namespace() + '/' + name().toLowerCase(Locale.ROOT) + '/' + namespacedKey.key();
+        return namespacedKey.namespace() + '/' + name + '/' + namespacedKey.key();
     }
 }

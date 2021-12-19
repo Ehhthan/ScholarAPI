@@ -1,4 +1,4 @@
-package com.ehhthan.scholarapi.location;
+package com.ehhthan.scholarapi.namespacedkey;
 
 public interface NamespacedKey {
     char SEPARATOR = ':';

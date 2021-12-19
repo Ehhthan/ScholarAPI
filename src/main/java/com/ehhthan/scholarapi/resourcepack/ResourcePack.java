@@ -1,18 +1,24 @@
 package com.ehhthan.scholarapi.resourcepack;
 
 import com.ehhthan.scholarapi.asset.font.FontAsset;
-import com.ehhthan.scholarapi.location.NamespacedKey;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
-import com.google.inject.Provider;
 
 import java.awt.image.BufferedImage;
 import java.util.Map;
-import java.util.Set;
 
-public interface ResourcePack extends Provider<ResourcePack> {
+public interface ResourcePack {
     PackMCMeta meta();
 
     BufferedImage icon();
 
     Map<NamespacedKey, FontAsset> fonts();
+
+    default boolean isFont(NamespacedKey namespacedKey) {
+        return fonts().containsKey(namespacedKey);
+    }
+
+    default FontAsset font(NamespacedKey namespacedKey) {
+        return fonts().get(namespacedKey);
+    }
 }

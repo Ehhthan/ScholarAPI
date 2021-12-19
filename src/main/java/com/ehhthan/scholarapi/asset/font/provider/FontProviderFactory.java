@@ -1,18 +1,14 @@
 package com.ehhthan.scholarapi.asset.font.provider;
 
-import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacterFactory;
 import com.ehhthan.scholarapi.asset.texture.TextureAssetFactory;
 import com.ehhthan.scholarapi.asset.texture.TiledTextureAsset;
-import com.ehhthan.scholarapi.location.NamespacedKey;
-import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
+import com.ehhthan.scholarapi.namespacedkey.NamespacedKeyFactory;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public interface FontProviderFactory {
     BitmapFontProvider bitmap(JsonObject json);
