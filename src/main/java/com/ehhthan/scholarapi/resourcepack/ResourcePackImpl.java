@@ -1,7 +1,6 @@
 package com.ehhthan.scholarapi.resourcepack;
 
-import com.ehhthan.scholarapi.asset.file.AssetFile;
-import com.ehhthan.scholarapi.asset.file.AssetFileFactory;
+import com.ehhthan.scholarapi.asset.AssetLocation;
 import com.ehhthan.scholarapi.asset.font.FontAsset;
 import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
 import com.ehhthan.scholarapi.location.NamespacedKey;
@@ -28,23 +27,23 @@ public final class ResourcePackImpl implements ResourcePack {
     private final transient Map<NamespacedKey, FontAsset> fonts = new HashMap<>();
 
     @Inject
-    ResourcePackImpl(@Named("workingDirectory") File workingDirectory, AssetFileFactory fileFactory, FontAssetFactory fontFactory) {
+    ResourcePackImpl(@Named("workingDirectory") File workingDirectory, FontAssetFactory fontFactory) {
         this.meta = null;
         this.icon = null;
 
-        for (File file : workingDirectory.listFiles()) {
-            if (file.isDirectory() && NAMESPACE_PATTERN.matcher(file.getName()).matches())
-                namespaces.add(file.getName());
-        }
-
-        for (String namespace : namespaces) {
-            File fontFolder = new File(workingDirectory, namespace + "/font/");
-            if (fontFolder.exists() && fontFolder.isDirectory())
-                for (File file : fontFolder.listFiles(AssetFile.Type.FONT.filter())) {
-                    FontAsset asset = fontFactory.file(fileFactory.font(file));
-                    fonts.put(asset.namespacedKey(), asset);
-                }
-        }
+//        for (File file : workingDirectory.listFiles()) {
+//            if (file.isDirectory() && NAMESPACE_PATTERN.matcher(file.getName()).matches())
+//                namespaces.add(file.getName());
+//        }
+//
+//        for (String namespace : namespaces) {
+//            File fontFolder = new File(workingDirectory, namespace + "/font/");
+//            if (fontFolder.exists() && fontFolder.isDirectory())
+//                for (File file : fontFolder.listFiles()) {
+//                    FontAsset asset = fontFactory.file(fileFactory.font(file));
+//                    fonts.put(asset.namespacedKey(), asset);
+//                }
+//        }
     }
 
     @Override

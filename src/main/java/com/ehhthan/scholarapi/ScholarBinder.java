@@ -1,14 +1,14 @@
 package com.ehhthan.scholarapi;
 
-import com.ehhthan.scholarapi.asset.file.AssetFileFactory;
-import com.ehhthan.scholarapi.asset.font.FontAsset;
 import com.ehhthan.scholarapi.asset.font.FontAssetFactory;
-import com.ehhthan.scholarapi.asset.font.FontAssetImpl;
+import com.ehhthan.scholarapi.asset.font.character.FontCharacter;
 import com.ehhthan.scholarapi.asset.font.character.FontCharacterFactory;
+import com.ehhthan.scholarapi.asset.font.character.FontCharacterImpl;
 import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProvider;
 import com.ehhthan.scholarapi.asset.font.provider.BitmapFontProviderImpl;
 import com.ehhthan.scholarapi.asset.font.provider.FontProviderFactory;
 import com.ehhthan.scholarapi.asset.text.TextAssetFactory;
+import com.ehhthan.scholarapi.asset.texture.TextureAssetFactory;
 import com.ehhthan.scholarapi.location.NamespacedKeyFactory;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
 import com.ehhthan.scholarapi.mcmeta.PackMCMetaProvider;
@@ -42,15 +42,13 @@ public class ScholarBinder extends AbstractModule {
 
         bind(TextAssetFactory.class).to(TextAssetFactory.TextAssetFactoryImpl.class);
 
-        bind(AssetFileFactory.class).to(AssetFileFactory.AssetFileFactoryImpl.class);
+        bind(FontProviderFactory.class).to(FontProviderFactory.FontProviderFactoryImpl.class);
 
-        bind(FontCharacterFactory.class).to(FontCharacterFactory.FontCharacterFactoryImpl.class);
+        bind(TextureAssetFactory.class).to(TextureAssetFactory.TextureAssetFactoryImpl.class);
 
         bind(FontAssetFactory.class).to(FontAssetFactory.FontAssetFactoryImpl.class);
 
-        install(new FactoryModuleBuilder()
-            .implement(BitmapFontProvider.class, Names.named("bitmap"), BitmapFontProviderImpl.class)
-            .build(FontProviderFactory.class));
+        bind(FontCharacterFactory.class).to(FontCharacterFactory.FontCharacterFactoryImpl.class);
     }
 
     @Provides

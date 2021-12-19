@@ -6,6 +6,4 @@ public interface FontCharacter {
     int width();
 
     int height();
-
-    char[] character();
 }
