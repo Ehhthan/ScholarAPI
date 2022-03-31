@@ -1,5 +1,6 @@
 package com.ehhthan.scholarapi.asset.text;
 
+import com.ehhthan.scholarapi.ScholarAPI;
 import com.ehhthan.scholarapi.ScholarBinder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -18,7 +19,9 @@ class TextAssetFactoryTest {
 
     @BeforeEach
     void setUp() {
-        Injector injector = Guice.createInjector(new ScholarBinder(null));
+        ScholarAPI scholarAPI = ScholarAPI.get();
+
+        Injector injector = Guice.createInjector(new ScholarBinder());
         this.factory = injector.getInstance(TextAssetFactory.class);
         this.gson = injector.getInstance(Gson.class);
     }

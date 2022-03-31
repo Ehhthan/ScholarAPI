@@ -12,25 +12,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-class ScholarAPI {
-//    private final Map<URI, ResourcePack> packs = new HashMap<>();
-//    private final ResourcePackFactory packFactory;
-//
-//    private ScholarAPI(File file) {
-//        Injector injector = Guice.createInjector(new ScholarBinder());
-//        this.packFactory = injector.getInstance(ResourcePackFactory.class);
-//    }
-//
-//    public static ScholarAPI get(File file) {
-//        return INSTANCE;
-//    }
-//
-//
-//    public ResourcePack pack(URI uri) {
-//
-//    }
-    public static void main(String[] args) {
-        System.out.println("Hello there fellow scholar.");
+public class ScholarAPI {
+    private static ScholarAPI INSTANCE;
+
+    private final Map<File, ResourcePack> packs = new HashMap<>();
+    private final ResourcePackFactory packFactory;
+
+    private ScholarAPI() {
+        Injector injector = Guice.createInjector(new ScholarBinder());
+        this.packFactory = injector.getInstance(ResourcePackFactory.class);
+    }
+
+    public static ScholarAPI get() {
+        if (INSTANCE == null)
+            INSTANCE = new ScholarAPI();
+        return INSTANCE;
+    }
+
+    public ResourcePack pack(File file) {
+        return packs.computeIfAbsent(file, packFactory::create);
     }
 }
 

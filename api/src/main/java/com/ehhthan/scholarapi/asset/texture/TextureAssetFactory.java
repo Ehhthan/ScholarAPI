@@ -18,13 +18,6 @@ public interface TextureAssetFactory {
     TiledTextureAsset tiled(int rows, int columns, NamespacedKey namespacedKey);
 
     class TextureAssetFactoryImpl implements TextureAssetFactory {
-        private final File workingDirectory;
-
-        @Inject
-        public TextureAssetFactoryImpl(@ResourcesDirectory File workingDirectory) {
-            this.workingDirectory = workingDirectory;
-        }
-
         @Override
         public LoneTextureAsset texture(NamespacedKey namespacedKey) {
             File file = new File(workingDirectory, AssetLocation.TEXTURES.path(namespacedKey));
@@ -41,21 +34,21 @@ public interface TextureAssetFactory {
         public TiledTextureAsset tiled(int rows, int columns, NamespacedKey namespacedKey) {
             File file = new File(workingDirectory, AssetLocation.TEXTURES.path(namespacedKey));
             Preconditions.checkArgument(file.exists(), "File does not exist: %s", file.getPath());
-            BufferedImage texture;
+            BufferedImage parent;
             try {
-                texture = ImageIO.read(file);
+                parent = ImageIO.read(file);
             } catch (IOException e) {
                 throw new IllegalArgumentException("Invalid texture file: " + file.getPath());
             }
 
             BufferedImage[][] textures = new BufferedImage[rows][columns];
 
-            int tileWidth = texture.getWidth() / columns;
-            int tileHeight = texture.getHeight() / rows;
+            int tileWidth = parent.getWidth() / columns;
+            int tileHeight = parent.getHeight() / rows;
 
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
-                    textures[i][j] = crop(texture.getSubimage(tileWidth * j, tileHeight * i, tileWidth, tileHeight));
+                    textures[i][j] = crop(parent.getSubimage(tileWidth * j, tileHeight * i, tileWidth, tileHeight));
                 }
             }
 
