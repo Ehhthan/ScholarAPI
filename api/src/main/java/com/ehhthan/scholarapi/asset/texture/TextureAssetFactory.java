@@ -13,14 +13,14 @@ import java.io.File;
 import java.io.IOException;
 
 public interface TextureAssetFactory {
-    LoneTextureAsset texture(NamespacedKey namespacedKey);
+    LoneTextureAsset texture(File file);
 
-    TiledTextureAsset tiled(int rows, int columns, NamespacedKey namespacedKey);
+    TiledTextureAsset tiled(File file, int rows, int columns);
 
     class TextureAssetFactoryImpl implements TextureAssetFactory {
         @Override
-        public LoneTextureAsset texture(NamespacedKey namespacedKey) {
-            File file = new File(workingDirectory, AssetLocation.TEXTURES.path(namespacedKey));
+        public LoneTextureAsset texture(File file) {
+            //File file = new File(workingDirectory, AssetLocation.TEXTURES.path(namespacedKey));
             Preconditions.checkArgument(file.exists(), "File does not exist: %s", file.getPath());
 
             try {
@@ -31,9 +31,10 @@ public interface TextureAssetFactory {
         }
 
         @Override
-        public TiledTextureAsset tiled(int rows, int columns, NamespacedKey namespacedKey) {
-            File file = new File(workingDirectory, AssetLocation.TEXTURES.path(namespacedKey));
+        public TiledTextureAsset tiled(File file, int rows, int columns) {
+            //File file = new File(workingDirectory, AssetLocation.TEXTURES.path(namespacedKey));
             Preconditions.checkArgument(file.exists(), "File does not exist: %s", file.getPath());
+
             BufferedImage parent;
             try {
                 parent = ImageIO.read(file);

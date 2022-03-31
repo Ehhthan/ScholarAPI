@@ -14,23 +14,25 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public interface FontAssetFactory {
     FontAsset provider(NamespacedKey namespacedKey, FontProvider... providers);
 
     FontAsset file(File file);
 
-    FontAsset json(NamespacedKey namespacedKey, JsonObject json);
-
     class FontAssetFactoryImpl implements FontAssetFactory {
         //private static final Pattern EXTENSION_PATTERN = Pattern.compile("(?<extension>[.][^/.]+$)");
 
+        private final Logger logger;
         private final FontProviderFactory providerFactory;
         private final NamespacedKeyFactory namespacedKeyFactory;
         private final Gson gson;
 
         @Inject
-        public FontAssetFactoryImpl(FontProviderFactory factory, NamespacedKeyFactory namespacedKeyFactory, Gson gson) {
+        public FontAssetFactoryImpl(Logger logger, FontProviderFactory factory, NamespacedKeyFactory namespacedKeyFactory, Gson gson) {
+            this.logger = logger;
             this.providerFactory = factory;
             this.namespacedKeyFactory = namespacedKeyFactory;
             this.gson = gson;
@@ -44,36 +46,30 @@ public interface FontAssetFactory {
         @Override
         public FontAsset file(File file) {
             BufferedReader reader;
-
             try {
                 reader = Files.newBufferedReader(file.toPath());
             } catch (IOException e) {
                 throw new IllegalArgumentException("File is not a valid font: " + file.toPath());
             }
 
-            return json(namespacedKeyFactory.filePath(file.toPath()), gson.fromJson(reader, JsonObject.class));
-        }
+            JsonObject json = gson.fromJson(reader, JsonObject.class);
 
-        @Override
-        public FontAsset json(NamespacedKey namespacedKey, JsonObject json) {
             Preconditions.checkArgument(json.has("providers"), "No providers defined.");
+            JsonArray fileProviders = json.getAsJsonArray("providers");
 
-            JsonArray jsonProviders = json.getAsJsonArray("providers");
-            FontProvider[] providers = new FontProvider[jsonProviders.size()];
-            for (int i = 0; i < jsonProviders.size(); i++) {
-                JsonObject providerObject = jsonProviders.get(i).getAsJsonObject();
+            FontProvider[] fontProviders = new FontProvider[fileProviders.size()];
+            for (int i = 0; i < fileProviders.size(); i++) {
+                JsonObject providerObject = fileProviders.get(i).getAsJsonObject();
 
                 switch (FontProvider.Type.fromPath(providerObject.get("type").getAsString())) {
                     case BITMAP:
                         FontProvider provider = providerFactory.bitmap(providerObject);
-                        providers[i] = provider;
-                    case TTF:
-                        //throw new UnsupportedOperationException("TTF type not supported yet.");
-                    case LEGACY_UNICODE:
-                        //throw new UnsupportedOperationException("Legacy_unicode type not supported yet.");
+                        fontProviders[i] = provider;
+                    case TTF, LEGACY_UNICODE:
+                        logger.log(Level.WARNING, "Font provider type is not yet supported.");
                 }
             }
-            return new FontAsset.FontAssetImpl(namespacedKey, providers);
+            return new FontAsset.FontAssetImpl(namespacedKeyFactory.filePath(file.toPath()), fontProviders);
         }
     }
 }

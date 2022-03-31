@@ -37,4 +37,12 @@ public enum AssetLocation {
     public String path() {
         return path;
     }
+
+    public static boolean isPath(String path) {
+        for (AssetLocation location : AssetLocation.values()) {
+            if (location.path.equals(path))
+                return true;
+        }
+        return false;
+    }
 }

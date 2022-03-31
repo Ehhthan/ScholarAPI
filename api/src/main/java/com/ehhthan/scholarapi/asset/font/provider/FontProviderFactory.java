@@ -45,7 +45,8 @@ public interface FontProviderFactory {
 
             NamespacedKey namespacedKey = namespacedKeyFactory.minecraftPath(json.getAsJsonPrimitive("file").getAsString());
 
-            TiledTextureAsset texture = textureFactory.tiled(chars.length, chars[0].codePoints().toArray().length, namespacedKey);
+            // TODO: 3/31/2022 null has to be the texture file
+            TiledTextureAsset texture = textureFactory.tiled(null, chars.length, chars[0].codePoints().toArray().length);
 
             return new BitmapFontProvider.BitmapFontProviderImpl(namespacedKey, height, ascent, chars, fontCharacterFactory.tiled(chars, texture));
         }

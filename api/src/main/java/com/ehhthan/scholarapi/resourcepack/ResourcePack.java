@@ -1,13 +1,9 @@
 package com.ehhthan.scholarapi.resourcepack;
 
-import com.ehhthan.scholarapi.asset.font.FontAsset;
-import com.ehhthan.scholarapi.namespacedkey.NamespacedKey;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
-import com.ehhthan.scholarapi.ztest.AssetCollection;
+import com.ehhthan.scholarapi.collection.AssetCollection;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
 public interface ResourcePack {
@@ -23,12 +19,12 @@ public interface ResourcePack {
         private final PackMCMeta meta;
         private final BufferedImage icon;
 
-        private final Map<String, AssetCollection> assets = new HashMap<>();
+        private final Map<String, AssetCollection> assets;
 
-        ResourcePackImpl(PackMCMeta mcMeta, BufferedImage icon, File assets) {
-
+        ResourcePackImpl(PackMCMeta mcMeta, BufferedImage icon, Map<String, AssetCollection> assets) {
             this.meta = mcMeta;
             this.icon = icon;
+            this.assets = assets;
 //
 //        Set<String> namespaces = new HashSet<>();
 //        File[] folders = workingDirectory.listFiles();
