@@ -1,5 +1,6 @@
 package com.ehhthan.scholarapi.resourcepack;
 
+import com.ehhthan.scholarapi.asset.texture.LoneTextureAsset;
 import com.ehhthan.scholarapi.mcmeta.PackMCMeta;
 import com.ehhthan.scholarapi.collection.AssetCollection;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 public interface ResourcePack {
     PackMCMeta meta();
 
-    BufferedImage icon();
+    LoneTextureAsset icon();
 
     Map<String, AssetCollection> assets();
 
@@ -17,11 +18,11 @@ public interface ResourcePack {
 //    private static final Pattern NAMESPACE_PATTERN = Pattern.compile("(?<namespace>[a-z0-9._-]+)");
 
         private final PackMCMeta meta;
-        private final BufferedImage icon;
+        private final LoneTextureAsset icon;
 
         private final Map<String, AssetCollection> assets;
 
-        ResourcePackImpl(PackMCMeta mcMeta, BufferedImage icon, Map<String, AssetCollection> assets) {
+        ResourcePackImpl(PackMCMeta mcMeta, LoneTextureAsset icon, Map<String, AssetCollection> assets) {
             this.meta = mcMeta;
             this.icon = icon;
             this.assets = assets;
@@ -53,7 +54,7 @@ public interface ResourcePack {
         }
 
         @Override
-        public BufferedImage icon() {
+        public LoneTextureAsset icon() {
             return icon;
         }
 

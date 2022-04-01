@@ -19,6 +19,10 @@ public interface FontProvider {
             this.path = name().toLowerCase(Locale.ROOT);
         }
 
+        Type(String path) {
+            this.path = path;
+        }
+
         public static Type fromPath(String path) {
             return Type.valueOf(path.toUpperCase(Locale.ROOT));
         }

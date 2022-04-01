@@ -66,7 +66,7 @@ public interface FontAssetFactory {
                         FontProvider provider = providerFactory.bitmap(providerObject);
                         fontProviders[i] = provider;
                     case TTF, LEGACY_UNICODE:
-                        logger.log(Level.WARNING, "Font provider type is not yet supported.");
+                        logger.log(Level.WARNING, "Font provider type is not yet supported (TTF and LEGACY_UNICODE).");
                 }
             }
             return new FontAsset.FontAssetImpl(namespacedKeyFactory.filePath(file.toPath()), fontProviders);

@@ -28,9 +28,7 @@ public interface ResourcePackFactory {
             File icon = new File(directory, "pack.png");
             File assets = new File(directory, "assets");
 
-
-
-            return new ResourcePack.ResourcePackImpl(metaFactory.pack(mcmeta), null, assetCollectionFactory.create(assets));
+            return new ResourcePack.ResourcePackImpl(metaFactory.pack(mcmeta), textureAssetFactory.texture(icon), assetCollectionFactory.create(assets));
         }
     }
 }
